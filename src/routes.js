@@ -7,7 +7,7 @@ import AuthSuccess from './components/AuthSuccess.vue';
 export const routes = [
   {path: '/', component: Home},
   {path: '/newPoll', component: NewPoll},
-  {path: '/VotePoll/:id', component: VotePoll},
+  {path: '/VotePoll/:user/:id', component: VotePoll},
   {path: '/Auth', component: Auth},
   { path: '/success/:user', component: AuthSuccess }
 

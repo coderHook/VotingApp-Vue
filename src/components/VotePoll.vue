@@ -36,7 +36,7 @@ import { Pie } from 'vue-chartjs';
   export default {
     data(){
       return {
-        url: 'https://votingapp-coderhook.firebaseio.com/data/' + this.$route.params.id + '.json',
+        url: 'https://votingapp-coderhook.firebaseio.com/data/'+ this.$route.params.user+ '/' + this.$route.params.id + '.json',
         poll: {},
         choosen: '',
         vote: '',

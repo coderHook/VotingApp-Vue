@@ -28,19 +28,25 @@
           </div>
           <span v-if="created == true">
             <br></br>
-              <p>You can Vote to your Poll in this link: <a :href="'http://localhost:8080/VotePoll/' + newPoll.id">http://localhost:8080/VotePoll/{{newPoll.id}} </a></p>
+              <p>You can Vote to your Poll in this link: <a :href="'http://localhost:8080/VotePoll/'+ this.usern.uid + '/' + this.newPoll.id">http://localhost:8080/VotePoll/{{usern.uid}}/{{newPoll.id}} </a></p>
               <br></br>
               <router-link tag="button"
                class="btn btn-action"
-               :to="/VotePoll/ + this.newPoll.id">Lets Vote</router-link>
+               :to="/VotePoll/ + this.usern.uid + '/'+ this.newPoll.id">Lets Vote</router-link>
           </span>
       </div>
   </div>
 </template>
+
 <script>
+
+import firebase from 'firebase';;
+import {config} from '../helpers/firebaseConfig';
+
 export default {
   data(){
     return {
+      usern: '',
       option: '',
       newPoll: {
         title: 'New Poll',
@@ -49,6 +55,20 @@ export default {
       },
       created: false
     };
+  },
+  beforeMount(){
+    var vm = this;
+    firebase.auth().onAuthStateChanged(function(user) {
+      if (user) {
+        // User is signed in.
+        vm.usern = user;
+        console.log('user is signed in newPoll', vm.usern.email);
+      } else {
+        // No user is signed in.
+        console.log('User NOT SIGNED on /newPoll');
+        vm.$router.push('/');
+      }
+    });
   },
   methods: {
     addOption(){
@@ -72,7 +92,8 @@ export default {
       };
       console.log(poll);
     //  this.$store.state.poll = this.newPoll;
-      this.$http.post("https://votingapp-coderhook.firebaseio.com/data.json", poll)
+      let url = ['https://votingapp-coderhook.firebaseio.com/data/' + this.usern.uid + '.json'];
+      this.$http.post(url[0], poll)
                 .then(response => {
                   this.newPoll.id = response.body.name;
                   console.log(this.newPoll.id)
