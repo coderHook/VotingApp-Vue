@@ -18,12 +18,14 @@
                   <li class="hidden">
                       <a href="#page-top"></a>
                   </li>
-                  <li class="page-scroll">
-                      <a href="">Sign Up</a>
+                  <li class="page-scroll" >
+                      <a class="pointer" @click="signUp" v-if="!usern">Sign Up</a>
+                      <a class="pointer" v-else> Hi {{usern.displayName}}!</a>
                   </li>
-                  <li class="page-scroll">
-                      <a href="">Login</a>
+                  <li class="page-scroll" v-if="usern">
+                    <a class="pointer" @click="logOut">Log out!</a>
                   </li>
+
 
               </ul>
           </div>
@@ -36,15 +38,68 @@
   <div class="page-header text-center">
       <h2>Voting App</h2>
       <h3>Create a custom poll</h3>
-      <button class="btn btn-success">Sign Up!</button>
+      <button @click="signUp" class="btn btn-success">Sign Up!</button>
       <br></br>
-      <router-link tag="button" class="btn btn-success" to="/newPoll">Create poll!</router-link>
+      <router-link tag="button" class="btn btn-success btn-lg" to="/newPoll" v-if="usern">Create poll!</router-link>
   </div>
 </div>
 </template>
 
 <script>
+
+import * as firebase from 'firebase';
+import {config} from '../helpers/firebaseConfig';
+
+firebase.initializeApp(config);
+
 export default {
+  data(){
+    return {
+      usern: ''
+    }
+  },
+  methods: {
+    signUp(){
+      var vm = this;
+      var provider = new firebase.auth.GoogleAuthProvider();
+
+      firebase.auth().signInWithPopup(provider).then(function(result) {
+        // This gives you a Google Access Token. You can use it to access the Google API.
+        var token = result.credential.accessToken;
+        // The signed-in user info.
+        var user = result.user;
+        vm.usern = user;
+
+        if(user){
+          console.log(vm.usern);
+          vm.$router.push('/newPoll');
+        }
+        else {console.log('no user')}
+        // ...
+      }).catch(function(error) {
+        // Handle Errors here.
+        var errorCode = error.code;
+        var errorMessage = error.message;
+        // The email of the user's account used.
+        var email = error.email;
+        // The firebase.auth.AuthCredential type that was used.
+        var credential = error.credential;
+        // ...
+      });
+
+    },
+    logOut(){
+      var vm = this;
+      firebase.auth().signOut().then(function() {
+        // Sign-out successful.
+        vm.usern = '';
+        vm.$router.push('/');
+        }).catch(function(error) {
+          // An error happened.
+        });
+    }
+
+  } /* End Methods */
 }
 </script>
 
@@ -58,4 +113,7 @@ export default {
     color:  #5bc0de;
   }
 
+  .pointer {
+    cursor: pointer;
+  }
 </style>
