@@ -3,7 +3,7 @@
     <div class="row">
       <div class="col-md-6 col-xs-12">
         <h3>Voting App by coderHook</h3>
-          <a href="https://github.com/coderHook/votingAPP">Github coderHook</a>
+          <a href="https://github.com/coderHook/VotingApp-Vue">Github coderHook</a>
 
       </div>
       <div class="col-md-6 col-xs-12 center">

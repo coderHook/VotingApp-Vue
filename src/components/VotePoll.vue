@@ -36,6 +36,7 @@ import { Pie } from 'vue-chartjs';
   export default {
     data(){
       return {
+        url: 'https://votingapp-coderhook.firebaseio.com/data/' + this.$route.params.id + '.json',
         poll: {},
         choosen: '',
         vote: '',
@@ -43,8 +44,7 @@ import { Pie } from 'vue-chartjs';
       };
     },
     beforeMount(){
-      var url = 'https://votingapp-coderhook.firebaseio.com/data/' + this.$route.params.id + '.json';
-      this.$http.get(url)
+      this.$http.get(this.url)
                 .then(response => {
                   return response.json();
                 })
@@ -62,7 +62,26 @@ import { Pie } from 'vue-chartjs';
           this.voted = true;
           this.createChart();
         } else { alert("First select your option.")}
+
+        /* Lets add this vote to our database */
+        console.log('this is teh url', this.url)
+        this.$http.put(this.url, this.poll);
       },
+      getRandomColor(numColors) {
+        var letters = '0123456789ABCDEF'.split('');
+        var color = '#';
+        var colorines = [];
+        console.log(numColors);
+        for (var j = 0; j < numColors; j++){
+          for (var i = 0; i < 6; i++ ) {
+              color += letters[Math.floor(Math.random() * 16)];
+            }
+            colorines.push(color);
+            color = '#';
+        }
+        console.log("those are the colors", colorines);
+        return colorines;
+    },
       createChart(){
 
         let labels = Object.getOwnPropertyNames(this.poll.options);
@@ -74,12 +93,12 @@ import { Pie } from 'vue-chartjs';
         }
         console.log("this data contains", data);
         new Chart(document.getElementById("pie-chart"), {
-          type: 'pie',
+          type: 'doughnut',
           data: {
             labels: labels,
             datasets: [{
               label: this.poll.title,
-              backgroundColor: ["#3e95cd", "#8e5ea2","#3cba9f","#e8c3b9","#c45850"],
+              backgroundColor: this.getRandomColor(data.length),
               data: data
             }]
           },
