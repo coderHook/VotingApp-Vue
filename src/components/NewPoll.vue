@@ -26,14 +26,14 @@
           <div v-else>
             <p>Add some more options to the poll.</p>
           </div>
-          <span v-if="created == true">
+          <div v-if="created == true">
             <br></br>
               <p>You can Vote to your Poll in this link: <a :href="'http://localhost:8080/VotePoll/'+ this.usern.uid + '/' + this.newPoll.id">http://localhost:8080/VotePoll/{{usern.uid}}/{{newPoll.id}} </a></p>
               <br></br>
               <router-link tag="button"
                class="btn btn-action"
                :to="/VotePoll/ + this.usern.uid + '/'+ this.newPoll.id">Lets Vote</router-link>
-          </span>
+          </div>
       </div>
   </div>
 </template>

@@ -19,10 +19,10 @@
                       <a href="#page-top"></a>
                   </li>
                   <li class="page-scroll" >
-                      <a class="pointer" @click="signUp" v-if="!usern">Sign Up</a>
-                      <a class="pointer" v-else> Hi {{usern.displayName}}!</a>
+                      <a class="pointer" @click="signUp" v-if="!this.$store.state.usern">Sign Up</a>
+                      <a class="pointer" v-else> Hi {{ this.$store.state.usern.displayName }}!</a>
                   </li>
-                  <li class="page-scroll" v-if="usern">
+                  <li class="page-scroll" v-if="this.$store.state.usern">
                     <a class="pointer" @click="logOut">Log out!</a>
                   </li>
 
@@ -35,12 +35,14 @@
   </nav>
   <!-- end of navbar -->
 
-  <div class="page-header text-center">
+  <div class="page-header text-center row">
+    <div class="col-md-12 container">
       <h2>Voting App</h2>
       <h3>Create a custom poll</h3>
-      <button @click="signUp" class="btn btn-success">Sign Up!</button>
+      <button @click="signUp" class="btn btn-success" v-if="!this.$store.state.usern">Sign Up!</button>
       <br></br>
-      <router-link tag="button" class="btn btn-success btn-lg" to="/newPoll" v-if="usern">Create poll!</router-link>
+      <router-link tag="button" class="btn btn-success btn-lg" to="/newPoll" v-if="this.$store.state.usern">Create poll!</router-link>
+    </div>
   </div>
 </div>
 </template>
@@ -53,11 +55,7 @@ import {config} from '../helpers/firebaseConfig';
 firebase.initializeApp(config);
 
 export default {
-  data(){
-    return {
-      usern: ''
-    }
-  },
+
   methods: {
     signUp(){
       var vm = this;
@@ -68,10 +66,12 @@ export default {
         var token = result.credential.accessToken;
         // The signed-in user info.
         var user = result.user;
-        vm.usern = user;
+
+        // Lets centralized he logged user storing it with vuex.
+        vm.$store.state.usern = user;
 
         if(user){
-          console.log(vm.usern);
+          console.log('Looged as: ', vm.$store.state.usern);
           vm.$router.push('/newPoll');
         }
         else {console.log('no user')}
@@ -92,8 +92,9 @@ export default {
       var vm = this;
       firebase.auth().signOut().then(function() {
         // Sign-out successful.
-        vm.usern = '';
+        vm.$store.state.usern = '';
         vm.$router.push('/');
+
         }).catch(function(error) {
           // An error happened.
         });
