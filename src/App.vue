@@ -27,4 +27,9 @@ export default {
   text-align: center;
   margin-top: 0px;
 }
+
+.pointer {
+  cursor: pointer;
+}
+
 </style>

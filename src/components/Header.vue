@@ -40,8 +40,7 @@
       <h2>Voting App</h2>
       <h3>Create a custom poll</h3>
       <button @click="signUp" class="btn btn-success" v-if="!this.$store.state.usern">Sign Up!</button>
-      <br></br>
-      <router-link tag="button" class="btn btn-success btn-lg" to="/newPoll" v-if="this.$store.state.usern">Create poll!</router-link>
+      
     </div>
   </div>
 </div>
