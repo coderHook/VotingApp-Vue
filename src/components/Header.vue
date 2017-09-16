@@ -40,7 +40,7 @@
       <h2>Voting App</h2>
       <h3>Create a custom poll</h3>
       <button @click="signUp" class="btn btn-success" v-if="!this.$store.state.usern">Sign Up!</button>
-      
+
     </div>
   </div>
 </div>

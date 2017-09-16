@@ -2,10 +2,10 @@
   <div class="row">
     <h1>Create New Poll</h1>
     <hr>
-    <div class="col-md-4 col-xs-12">
-        <user-polls></user-polls>
+    <div class="col-md-4 col-xs-6">
+        <user-polls @idtoedit="idtoedit"></user-polls>
     </div>
-    <div class="col-md-4 col-xs-12">
+    <div class="col-md-4 col-xs-3">
 
       <h2>Title</h2>
       <br></br>
@@ -13,11 +13,13 @@
       <h3> Option </h3>
       <input class="form-control" type="text" v-model="option">
       <span v-if="!created" @click="addOption" class="glyphicon glyphicon-plus-sign pointer"></span>
+      <span v-if="!created" @click="resetCreated" class="glyphicon glyphicon-remove-circle pointer"></span>
+
       <br></br>
       <button class="btn btn-primary" v-if="created == true" @click="resetCreated">New poll</button>
       <p>{{ created }}</p>
     </div>
-    <div class="col-md-4 col-xs-12">
+    <div class="col-md-4 col-xs-3">
         <h3>{{ newPoll.title }} </h3>
         <br></br>
         <ul>
@@ -28,7 +30,7 @@
           </li>
         </ul>
         <div v-if="newPoll.options.length >= 2">
-          <button class="btn btn-primary" @click="createPoll" v-if="!created">Save</button>
+          <button class="btn btn-primary" @click="save" v-if="!created">Save</button>
         </div>
           <div v-else>
             <p>Add some more options to the poll.</p>
@@ -103,7 +105,48 @@ export default {
         id: ''
       }
     },
+    idtoedit(value){
+      this.newPoll.title = this.$store.state.poll[value].title;
+      this.newPoll.options = Object.keys(this.$store.state.poll[value].options);
+      this.newPoll.id = value;
+    },
+    save(){
+      if(this.$store.state.ids.includes(this.newPoll.id)){
+        console.log('id is in da HOUSE');
+        let url = ['https://votingapp-coderhook.firebaseio.com/data/'+ this.$store.state.usern.uid + '/' + this.newPoll.id + '.json'];
+
+        var poll = {
+          title: this.newPoll.title,
+          options: {}
+        };
+
+        var array = Object.keys(this.$store.state.poll[this.newPoll.id].options);
+        for( var opt of this.newPoll.options){
+          if(!array.includes(opt)){
+            poll.options[opt] = 0;
+          } else {
+            poll.options[opt] = this.$store.state.poll[this.newPoll.id].options[opt];
+          }
+
+
+          console.log("for loop: ", poll.options[opt]);
+        }
+
+        console.log('This is the poll that youa re going to save: ', poll);
+
+        this.$http.put(url[0], poll);
+        this.refresh();
+        this.created = true;
+
+      } else {
+
+        console.log('is not :(, so, lets go and CREATE it');
+        this.createPoll();
+      }
+
+    },
     createPoll(){
+
       var vm = this;
       var poll = {
         title: this.newPoll.title,
@@ -124,35 +167,25 @@ export default {
                 });
 
                 this.created = true;
-/* Esta parte no funciona porque data aun no recoge los datos que se han subido de la ultima encuesta, la db de firebase si la tiene.
-                var url2 = ['https://votingapp-coderhook.firebaseio.com/data/' + this.$store.state.usern.uid + '.json']
-                this.$http.get(url2[0])
-                          .then(response => {
-                            return response.json();
-                          })
-                          .then(data => {
-                            vm.$store.state.poll = data;
-                            console.log("/newPoll ->created() $store.state.poll", data)
-                            this.$store.commit('ids');
-                            console.log('this are the ids after creating a new poll', this.$store.getters.ids);
-                          }); */
-          //Lets try to extract somethign from the database
-          const dbRef = firebase.database().ref().child('data');
-          const dbRefUser = dbRef.child(this.$store.state.usern.uid)
+                this.refresh()
+    },
+    refresh(){
+      //With this we update our state.poll
+      const dbRef = firebase.database().ref().child('data');
+      const dbRefUser = dbRef.child(this.$store.state.usern.uid)
 
-          var poles = '';
-          dbRefUser.on('value', snap => {
-            this.$store.state.poll = snap.val();
-            this.$store.commit('ids');
-          });
-
-
+      var poles = '';
+      dbRefUser.on('value', snap => {
+        this.$store.state.poll = snap.val();
+        this.$store.commit('ids');
+      });
     }
   }
 }
 </script>
 
 <style lang="css" scoped>
+
 ul {
   list-style-type: none;
 }

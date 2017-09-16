@@ -17,7 +17,11 @@ export const store = new Vuex.Store({
   },
   mutations: {
     ids: state => {
-      state.ids = Object.getOwnPropertyNames(state.poll);
+      //state.ids = Object.getOwnPropertyNames(state.poll);
+      state.ids = Object.keys(state.poll);
+      //state.ids.pop()
+      //delete state.poll['__obj__'];
+      console.log(state.ids);
     }
   },
 

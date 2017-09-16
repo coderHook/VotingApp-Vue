@@ -1,5 +1,5 @@
 <template lang="html">
-  <div class="panel panel-info">
+  <div class="panel panel-info userPolls">
     <div class="panel-heading">
       <div class="panel-title"><h3>Your Polls</h3></div>
     </div>
@@ -7,7 +7,7 @@
         <li class="list-group-item pointer" v-for="(id, index) in this.$store.state.ids">
           <a :href="'http://localhost:8080/VotePoll/'+ $store.state.usern.uid + '/' + id">{{ $store.state.poll[id].title }}</a>
           <div class="pull-right">
-          <span class="glyphicon glyphicon-pencil"></span></a>
+          <span class="glyphicon glyphicon-pencil pencil" @click.prevent="editPoll(id)"></span></a>
           <span class="glyphicon glyphicon-trash trash" @click.prevent="deletePoll(index)"></span></a>
         </div>
       </li>
@@ -29,7 +29,7 @@ export default {
     }
   },
 
-  beforeMount(){
+  created(){
     var url = 'https://votingapp-coderhook.firebaseio.com/data/'+ this.$store.state.usern.uid + '.json';
     this.$http.get(url)
               .then(response => {
@@ -66,6 +66,10 @@ export default {
         this.$store.commit('ids');
       });
       console.log('this.store.poll = ', this.$store.state.poll);
+    },
+    editPoll(id) {
+      console.log('Poll to edit: ',this.$store.state.poll[id]);
+      this.$emit('idtoedit', id);
     }
   }
 
@@ -74,6 +78,7 @@ export default {
 </script>
 
 <style lang="css" scoped>
+
   .poll:hover {
     background-color: #e6ffff;
     font-size: 16px;
@@ -83,9 +88,10 @@ export default {
   }
   .glyphicon:hover {
     font-size: 18px;
+    color: lightblue;
   }
   .trash { color:rgb(209, 91, 71); }
-  .panel-body { padding:0px; }
+  .panel-body { padding:0px;}
   .panel-footer .pagination { margin: 0; }
   .panel .glyphicon,.list-group-item .glyphicon { margin-right:5px; }
   .panel-body .radio, .checkbox { display:inline-block;margin:0px; }
