@@ -1,6 +1,9 @@
-# voting-app
+# Voting-app
+### This app is made with Vuejs and deployed in Firebase.
 
-> A v project on users can make polls, vote and share those polls with friends to reach a democratic agreement.ue.js
+
+
+> A project on users can make polls, vote and share those polls with friends to reach a democratic agreement.ue.js
 
 ## Build Setup
 
@@ -15,4 +18,21 @@ npm run dev
 npm run build
 ```
 
-For detailed explanation on how things work, consult the [docs for vue-loader](http://vuejs.github.io/vue-loader).
+## Synopsis
+
+This is a Dynamic Web application that allow users, once they sign in:
+  - Create new Polls
+  - Administrate their Polls.
+  - Vote on other polls.
+
+  ## Tests
+
+  Once we are on the index.html we have to choose whether to sing up! for a new account or login if we already have an account.
+
+  In the dashboard you will be able to Administrate your polls, create new ones and Vote.
+  The polls can be edit at any time by the own creator of the poll if he sign in.
+
+  Also there will be a sharing box to share it with your social networks.
+
+
+  ## License
