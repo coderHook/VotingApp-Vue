@@ -25,7 +25,14 @@ This is a Dynamic Web application that allow users, once they sign in:
   - Administrate their Polls.
   - Vote on other polls.
 
-  ## Tests
+![Alt text](/readme_img/app_home.jpg?raw=true "Voting App Home page")
+![Alt text](/readme_img/app_newpoll.jpg?raw=true "Voting App NewPoll page")
+![Alt text](/readme_img/app_created.jpg?raw=true "Voting App NewPoll -after poll is created- page")
+![Alt text](/readme_img/app_voted.jpg?raw=true "Voting App Voted page")
+
+
+
+## Tests
 
   Once we are on the index.html we have to choose whether to sing up! for a new account or login if we already have an account.
 
@@ -35,4 +42,4 @@ This is a Dynamic Web application that allow users, once they sign in:
   Also there will be a sharing box to share it with your social networks.
 
 
-  ## License
+## License
