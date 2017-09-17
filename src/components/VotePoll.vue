@@ -7,14 +7,14 @@
         <h2 class="card-header"> {{ poll.title }}</h2>
         <br></br>
         <div class="card-block">
-          <h4 class="card-title">Options</h4>
-          <br></br>
-          <div>
+          <h3 class="card-title">Options</h3>
+          <div class="opt2Vote">
             <p v-for="(opt, i) in Object.keys(this.poll.options)">
-              <input type="radio" name="option" :value="opt" v-model="vote"> {{ opt }}
+              <input type="radio" name="option" :value="opt" v-model="vote">
+              <span>{{ opt }}</span>
             </p>
           </div>
-          <a class="btn btn-primary" @click="addVote(value)" v-if="!voted">Vote!</a>
+          <a class="btn btn-lg btn-success" @click="addVote(value)" v-if="!voted">Vote!</a>
         </div>
     </div>
 
@@ -114,5 +114,9 @@ import { Pie } from 'vue-chartjs';
   }
 </script>
 
-<style lang="css">
+<style lang="css" scoped>
+  .opt2Vote {
+    text-align: left;
+    margin: 5% 0 5% 46%;
+ }
 </style>

@@ -6,14 +6,13 @@
         <user-polls @idtoedit="idtoedit"></user-polls>
     </div>
     <div class="col-md-4 col-sm-6 col-xs-12">
-
       <h2>Title</h2>
-      <br></br>
       <p><input class="form-control" type="text" v-model="newPoll.title"></p>
+      <br></br>
       <h3> Option </h3>
       <input class="form-control" type="text" v-model="option">
-      <span v-if="!created" @click="addOption" class="glyphicon glyphicon-plus-sign pointer"></span>
-      <span v-if="!created" @click="resetCreated" class="glyphicon glyphicon-remove-circle pointer"></span>
+      <span v-if="!created" @click="addOption" class="glyphicon glyphicon-plus-sign pointer addreset"></span>
+      <span v-if="!created" @click="resetCreated" class="glyphicon glyphicon-remove-circle pointer addreset"></span>
 
       <br></br>
       <button class="btn btn-primary" v-if="created == true" @click="resetCreated">New poll</button>
@@ -24,8 +23,14 @@
         <br></br>
         <ul>
           <li v-for="(opt, index) in newPoll.options">
-            {{ opt }}
-            <span v-if="!created" @click="removeOption(index)" class="glyphicon glyphicon-minus-sign pointer"></span>
+            <div class="container-fluid result">
+              <div class="pull-left">
+                {{ opt }}
+              </div>
+              <div class="pull-right">
+                <span v-if="!created" @click="removeOption(index)" class="glyphicon glyphicon-minus-sign pointer minus"></span>
+              </div>
+            </div>
 
           </li>
         </ul>
@@ -35,11 +40,11 @@
           <div v-else>
             <p>Add some more options to the poll.</p>
           </div>
-          <div v-if="created == true">
+          <div v-if="created == true" class="container-fluid">
             <div class="panel panel-default">
               <div class="panel-body">You can Share your Poll with this link</div>
               <div class="panel-footer">
-                <a target="_blank" :href="'https://votingapp-coderhook.firebaseapp.com/VotePoll/'+ this.$store.state.usern.uid + '/' + this.newPoll.id">
+                <a id="pollink" class="pollink" target="_blank" :href="'https://votingapp-coderhook.firebaseapp.com/VotePoll/'+ this.$store.state.usern.uid + '/' + this.newPoll.id">
                     https://votingapp-coderhook.firebaseapp.com/VotePoll/{{this.$store.state.usern.uid}}/{{newPoll.id}}
                 </a>
 
@@ -47,7 +52,7 @@
             </div>
 
               <router-link tag="button"
-               class="btn btn-action"
+               class="btn btn-success"
                :to="/VotePoll/ + this.$store.state.usern.uid + '/'+ this.newPoll.id">Lets Vote</router-link>
           </div>
       </div>
@@ -197,13 +202,41 @@ ul {
   list-style-type: none;
 }
 
+input {
+    width: 60%;
+    margin: auto;
+}
+
+.result {
+  margin-left: 30%;
+  margin-right: 30%;
+}
+
 .pointer {
   cursor: pointer;
 }
 
-.glyphicon {
+.minus {
+  color: #5bc0de;
+  font-size: 15px;
+}
+.minus:hover {
+  font-size: 18px;
+  color: red;
+}
+
+.addreset {
   color: #5bc0de;
   font-size: 25px;
+  margin: 30px 10px 0px 10px;
+}
+
+.addreset:hover{
+  font-size: 30px;
+}
+
+.pollink {
+  font-size: 80%;
 }
 
 </style>

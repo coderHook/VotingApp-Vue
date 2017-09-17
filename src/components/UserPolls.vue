@@ -4,12 +4,16 @@
       <div class="panel-title"><h3>Your Polls</h3></div>
     </div>
       <ul class="list-group">
-        <li class="list-group-item pointer" v-for="(id, index) in this.$store.state.ids">
-          <router-link tag="a" :to="/VotePoll/ + $store.state.usern.uid + '/'+ id">{{ $store.state.poll[id].title }}</router-link>
-          <div class="pull-right">
-            <span class="glyphicon glyphicon-pencil pencil" @click.prevent="editPoll(id)"></span></a>
-            <span class="glyphicon glyphicon-trash trash" @click.prevent="deletePoll(index)"></span></a>
+        <li class="list-group-item" v-for="(id, index) in this.$store.state.ids">
+          <div class="container-fluid">
+          <div class="pull-left">
+          <router-link tag="a" class="pointer" :to="/VotePoll/ + $store.state.usern.uid + '/'+ id">{{ $store.state.poll[id].title }}</router-link>
           </div>
+          <div class="pull-right">
+            <span class="glyphicon glyphicon-pencil pencil pointer" @click.prevent="editPoll(id)"></span></a>
+            <span class="glyphicon glyphicon-trash trash pointer" @click.prevent="deletePoll(index)"></span></a>
+          </div>
+        </div>
         </li>
       </ul>
 
@@ -88,19 +92,21 @@ export default {
     background-color: #e6ffff;
     font-size: 16px;
   }
-  span {
-    margin: 8px;
+  .glyphicon {
+    margin-left: 22px;
   }
+
   .glyphicon:hover {
-    font-size: 18px;
+    font-size: 17px;
     color: lightblue;
   }
+
+
   .trash { color:rgb(209, 91, 71); }
+  .pencil {color: green;}
   .panel-body { padding:0px;}
   .panel-footer .pagination { margin: 0; }
-  .panel .glyphicon,.list-group-item .glyphicon { margin-right:5px; }
+  .panel .glyphicon,.list-group-item .glyphicon { margin-right:0px; }
   .panel-body .radio, .checkbox { display:inline-block;margin:0px; }
-  .panel-body input[type=checkbox]:checked + label { text-decoration: line-through;color: rgb(128, 144, 160); }
-  .list-group-item:hover, a.list-group-item:focus {text-decoration: none;background-color: rgb(245, 245, 245);}
   .list-group { margin-bottom:0px; }
 </style>
