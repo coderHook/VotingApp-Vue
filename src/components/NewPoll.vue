@@ -36,9 +36,16 @@
             <p>Add some more options to the poll.</p>
           </div>
           <div v-if="created == true">
-            <br></br>
-              <p>You can Vote to your Poll in this link: <a :href="'http://localhost:8080/VotePoll/'+ this.$store.state.usern.uid + '/' + this.newPoll.id">http://localhost:8080/VotePoll/{{this.$store.state.usern.uid}}/{{newPoll.id}} </a></p>
-              <br></br>
+            <div class="panel panel-default">
+              <div class="panel-body">You can Share your Poll with this link</div>
+              <div class="panel-footer">
+                <a target="_blank" :href="'http://localhost:8080/VotePoll/'+ this.$store.state.usern.uid + '/' + this.newPoll.id">
+                    http://localhost:8080/VotePoll/{{this.$store.state.usern.uid}}/{{newPoll.id}}
+                </a>
+
+              </div>
+            </div>
+
               <router-link tag="button"
                class="btn btn-action"
                :to="/VotePoll/ + this.$store.state.usern.uid + '/'+ this.newPoll.id">Lets Vote</router-link>

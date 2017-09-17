@@ -5,12 +5,12 @@
     </div>
       <ul class="list-group">
         <li class="list-group-item pointer" v-for="(id, index) in this.$store.state.ids">
-          <a :href="'http://localhost:8080/VotePoll/'+ $store.state.usern.uid + '/' + id">{{ $store.state.poll[id].title }}</a>
+          <router-link tag="a" :to="/VotePoll/ + $store.state.usern.uid + '/'+ id">{{ $store.state.poll[id].title }}</router-link>
           <div class="pull-right">
-          <span class="glyphicon glyphicon-pencil pencil" @click.prevent="editPoll(id)"></span></a>
-          <span class="glyphicon glyphicon-trash trash" @click.prevent="deletePoll(index)"></span></a>
-        </div>
-      </li>
+            <span class="glyphicon glyphicon-pencil pencil" @click.prevent="editPoll(id)"></span></a>
+            <span class="glyphicon glyphicon-trash trash" @click.prevent="deletePoll(index)"></span></a>
+          </div>
+        </li>
       </ul>
 
 
@@ -59,13 +59,18 @@ export default {
       const dbRef = firebase.database().ref().child('data');
       const dbRefUser = dbRef.child(this.$store.state.usern.uid)
 
-      dbRefUser.child(this.$store.state.ids[index]).remove();
-      dbRefUser.on('value', snap => {
-        this.$store.state.poll = snap.val();
-        //this.$store.state.ids.splice(index, 1);
-        this.$store.commit('ids');
-      });
-      console.log('this.store.poll = ', this.$store.state.poll);
+      var conf = confirm("Are you sure you want to delete it?");
+        if(conf) {
+          dbRefUser.child(this.$store.state.ids[index]).remove();
+          dbRefUser.on('value', snap => {
+            this.$store.state.poll = snap.val();
+            //this.$store.state.ids.splice(index, 1);
+            this.$store.commit('ids');
+          });
+          console.log('this.store.poll = ', this.$store.state.poll);
+        }
+
+
     },
     editPoll(id) {
       console.log('Poll to edit: ',this.$store.state.poll[id]);

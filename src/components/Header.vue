@@ -20,7 +20,7 @@
                   </li>
                   <li class="page-scroll" >
                       <a class="pointer" @click="signUp" v-if="!this.$store.state.usern">Sign Up</a>
-                      <a class="pointer" v-else> Hi {{ this.$store.state.usern.displayName }}!</a>
+                      <router-link tag="a" to="/newPoll" class="pointer" v-else> Hi {{ this.$store.state.usern.displayName }}!</router-link>
                   </li>
                   <li class="page-scroll" v-if="this.$store.state.usern">
                     <a class="pointer" @click="logOut">Log out!</a>
