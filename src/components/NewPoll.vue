@@ -1,11 +1,11 @@
 <template lang="html">
-  <div class="row">
+  <div class="row container-fluid">
     <h1>Create New Poll</h1>
     <hr>
-    <div class="col-md-4 col-xs-6">
+    <div class="col-md-4 col-sm-12 col-xs-12">
         <user-polls @idtoedit="idtoedit"></user-polls>
     </div>
-    <div class="col-md-4 col-xs-3">
+    <div class="col-md-4 col-sm-6 col-xs-12">
 
       <h2>Title</h2>
       <br></br>
@@ -19,7 +19,7 @@
       <button class="btn btn-primary" v-if="created == true" @click="resetCreated">New poll</button>
       <p>{{ created }}</p>
     </div>
-    <div class="col-md-4 col-xs-3">
+    <div class="col-md-4 col-sm-6 col-xs-12">
         <h3>{{ newPoll.title }} </h3>
         <br></br>
         <ul>
@@ -39,8 +39,8 @@
             <div class="panel panel-default">
               <div class="panel-body">You can Share your Poll with this link</div>
               <div class="panel-footer">
-                <a target="_blank" :href="'http://localhost:8080/VotePoll/'+ this.$store.state.usern.uid + '/' + this.newPoll.id">
-                    http://localhost:8080/VotePoll/{{this.$store.state.usern.uid}}/{{newPoll.id}}
+                <a target="_blank" :href="'https://votingapp-coderhook.firebaseapp.com/VotePoll/'+ this.$store.state.usern.uid + '/' + this.newPoll.id">
+                    https://votingapp-coderhook.firebaseapp.com/VotePoll/{{this.$store.state.usern.uid}}/{{newPoll.id}}
                 </a>
 
               </div>
